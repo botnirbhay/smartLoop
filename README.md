@@ -1,23 +1,29 @@
-﻿# AI Agent Loop Kit
+# AI Agent Loop Kit
 
-You should not have to retype the same coding-agent instructions every time: inspect before editing, keep the change small, add tests, run checks, retry failures, ask before risky actions, and summarize the result.
+> Create reliable, repository-specific working rules for coding agents without repeating the same operational prompt on every task.
 
-AI Agent Loop Kit turns those repeated instructions into copy-pasteable repository files: `AGENTS.md` sections, task templates, loop recipes, check examples, guardrails, and prompts that help developers get more reliable sessions with less prompt overhead.
+AI Agent Loop Kit provides a bootstrap workflow, complete `AGENTS.md` presets, task recipes, approval guardrails, check policies, and validation tools. It is Markdown-first, vendor-neutral, and dependency-free.
 
 ## The Promise
 
-This repo helps you make coding agents work more like a repeatable development loop and less like a one-off chat prompt.
+Define once per repository:
 
-Use it to answer these questions once per repo:
-
-- What should an agent inspect before editing?
-- What commands should it run?
-- When should it add tests?
-- What should it never do without approval?
-- When should it stop?
-- What should the final handoff include?
+- How agents inspect, edit, test, retry, and stop.
+- Which commands validate a change.
+- Which files and actions require human approval.
+- What every final handoff must report.
 
 The loop is vendor-neutral. `AGENTS.md` is the canonical policy used by this kit; if your agent uses another instruction filename or configuration surface, adapt the same content there. See [Agent Compatibility](docs/agent-compatibility.md).
+
+## Quick Start
+
+| Your situation | Start here |
+| --- | --- |
+| Existing repository | [Bootstrap Your Repository](docs/bootstrap-your-repo.md) |
+| New repository | [Complete AGENTS.md Presets](presets/) |
+| Evaluating the kit | [Worked Adoption Example](examples/adoption/) |
+| Team rollout | [Adoption Checklist](docs/adoption-checklist.md) |
+| Existing setup needs review | [Quality Checklist](docs/quality-checklist.md) |
 
 ## Start With Your Own Repository
 
@@ -31,20 +37,6 @@ The recommended setup uses the agent to inspect the target repository before cre
 6. Paste the read-only prompt from [Test Your Setup](docs/test-your-setup.md).
 
 Start with [START-HERE.md](START-HERE.md) for the compact version.
-
-## Three Adoption Paths
-
-### Existing Repository
-
-Use the bootstrap workflow. It discovers commands from manifests, CI, task runners, and project docs, then asks for human approval before writing instructions.
-
-### New Repository
-
-Copy a complete `AGENTS.md` from [Presets](presets/), replace placeholders, remove unsupported commands, and paste the setup smoke-test prompt.
-
-### Team Rollout
-
-Start with a validated `AGENTS.md`, then add selected loop recipes, task templates, security rules, and large-refactor policies. Use the [Quality Checklist](docs/quality-checklist.md) during review.
 
 The target repository normally keeps only:
 
@@ -81,37 +73,6 @@ Definition of done: the timezone persists and a regression test covers it.
 
 The repository owns stable working rules. Each prompt supplies only the task-specific outcome and context.
 
-## Minimal `AGENTS.md` Example
-
-```md
-# AGENTS.md
-
-## Working Loop
-
-1. Understand the task.
-2. Inspect relevant files before editing.
-3. Make the smallest safe change.
-4. Add or update tests when behavior changes.
-5. Run available checks.
-6. If checks fail, inspect the error, fix the cause, and rerun.
-7. Stop when checks pass, blocked, or after 3 failed attempts on the same issue.
-
-## Checks
-
-- Run `<focused test command>` for targeted behavior changes.
-- Run `<lint command>` when source changes.
-- Run `<typecheck/build command>` when shared APIs or config change.
-- If no check command exists, say no checks were available.
-
-## Ask First
-
-Ask before deleting files, destructive commands, dependency changes, migrations, auth/security changes, secrets or credentials, network calls, or deployment changes.
-
-## Final Response
-
-Include summary, files changed, checks run, and remaining risks or follow-ups.
-```
-
 ## Copy This Prompt Into Your Agent
 
 ```text
@@ -127,112 +88,18 @@ Inspect relevant files before editing. Make the smallest safe change. Add or upd
 
 For the full version, use `docs/golden-prompt.md`.
 
-## What Makes This Useful
+## What Is Included
 
-This kit is not just templates. It includes practical workflows developers can reuse immediately:
+| Directory | Purpose |
+| --- | --- |
+| [presets/](presets/) | Complete minimal, Node.js, Python, Go, and Rust policies |
+| [docs/loop-recipes/](docs/loop-recipes/) | Bugfix, failing-test, refactor, review, docs, and test workflows |
+| [templates/](templates/) | Structured task briefs and repository onboarding |
+| [snippets/](snippets/) | Reusable testing, security, approval, and stop policies |
+| [examples/languages/](examples/languages/) | Stack-specific commands and gotchas |
+| [examples/adoption/](examples/adoption/) | End-to-end discovery, policy, task, and handoff |
 
-- Loop recipes for bugfixes, failing tests, refactors, PR reviews, docs, and test generation.
-- Language-specific check examples for Node.js, Python, Go, and Rust.
-- Copy-pasteable `AGENTS.md` snippets for approval rules, stop conditions, testing, security, and large refactors.
-- Before/after prompt examples that turn vague requests into reliable workflows.
-- A maturity model for improving agent-assisted development over time.
-- A compatibility guide for adapting the kit without assuming tool-specific behavior.
-- An adoption checklist for real repositories.
-- A two-phase repository bootstrap workflow with human review before edits.
-- Complete Node.js, Python, Go, Rust, and minimal `AGENTS.md` presets.
-- A worked example from repository discovery through final task handoff.
-- A scored quality rubric and read-only setup smoke test.
-
-## Repository Map
-
-```text
-.
-|-- AGENTS.md
-|-- CONTRIBUTING.md
-|-- README.md
-|-- START-HERE.md
-|-- docs/
-|   |-- adoption-checklist.md
-|   |-- agent-compatibility.md
-|   |-- before-vs-after.md
-|   |-- bootstrap-your-repo.md
-|   |-- golden-prompt.md
-|   |-- maturity-model.md
-|   |-- quality-checklist.md
-|   |-- test-your-setup.md
-|   `-- loop-recipes/
-|       |-- README.md
-|       |-- bugfix-loop.md
-|       |-- documentation-loop.md
-|       |-- failing-test-loop.md
-|       |-- pr-review-loop.md
-|       |-- refactor-loop.md
-|       `-- test-generation-loop.md
-|-- examples/
-|   |-- README.md
-|   |-- adoption/
-|   |   |-- README.md
-|   |   |-- discovery-report.md
-|   |   |-- example-task.md
-|   |   |-- expected-final-response.md
-|   |   |-- final-AGENTS.md
-|   |   `-- repository-summary.md
-|   |-- approval-rules.md
-|   |-- check-commands.md
-|   |-- stop-conditions.md
-|   `-- languages/
-|       |-- README.md
-|       |-- go.md
-|       |-- node.md
-|       |-- python.md
-|       `-- rust.md
-|-- presets/
-|   |-- README.md
-|   |-- go/AGENTS.md
-|   |-- minimal/AGENTS.md
-|   |-- node/AGENTS.md
-|   |-- python/AGENTS.md
-|   `-- rust/AGENTS.md
-|-- snippets/
-|   |-- README.md
-|   |-- approval-rules.md
-|   |-- default-loop.md
-|   |-- final-response-format.md
-|   |-- large-refactor-policy.md
-|   |-- security-guardrails.md
-|   |-- stop-conditions.md
-|   `-- testing-policy.md
-`-- templates/
-    |-- README.md
-    |-- bugfix.md
-    |-- documentation.md
-    |-- feature.md
-    |-- refactor.md
-    |-- repository-onboarding.md
-    `-- test-generation.md
-```
-
-## How To Use The Pieces
-
-Use [Bootstrap Your Repository](docs/bootstrap-your-repo.md) to discover and propose rules for an established project before creating files.
-
-Use `AGENTS.md` as the canonical repo policy. It should contain the instructions a coding agent should follow on most tasks.
-
-Use [Presets](presets/) for a complete starting file in a new repository.
-
-Use `docs/agent-compatibility.md` to adapt that policy to an agent with a different instruction mechanism.
-
-Use `snippets/` when building or improving a real repo's `AGENTS.md`. Copy only the sections that match the project.
-
-Use `docs/loop-recipes/` when starting a specific workflow. Recipes are more operational than templates: they define steps, checks, stop conditions, approval points, and final responses.
-
-Use `templates/` for task briefs. They are useful in issues, pull requests, and agent prompts.
-
-Use `examples/languages/` to seed check commands and gotchas for a stack.
-
-Use `docs/adoption-checklist.md` when rolling this into a real repo.
-
-Use the [Worked Adoption Example](examples/adoption/) to see the complete discovery, approval, policy, task, and handoff sequence.
+See [START-HERE.md](START-HERE.md) for adoption steps and [Agent Compatibility](docs/agent-compatibility.md) when a tool uses a different instruction mechanism.
 
 ## Who This Is For
 
@@ -257,34 +124,6 @@ It is a lightweight set of practical Markdown files you can copy, edit, and impr
 
 Contributions should stay practical and dependency-free. Prefer a copy-pasteable recipe, policy, check command, or real-world gotcha over abstract guidance. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## Recommended Starting Paths
-
-For a bug:
-
-1. Read `docs/loop-recipes/bugfix-loop.md`.
-2. Copy `templates/bugfix.md` into your prompt.
-3. Add your focused test command.
-4. Run your agent with the final response format from `snippets/final-response-format.md`.
-
-For a repo setup:
-
-1. Open `docs/bootstrap-your-repo.md`.
-2. Run the read-only discovery prompt in the target repository.
-3. Review and approve the proposed rules.
-4. Create `AGENTS.md` and run `docs/test-your-setup.md`.
-
-For a vague prompt:
-
-1. Open `docs/before-vs-after.md`.
-2. Rewrite the request as a loop.
-3. Add checks and stop conditions.
-
 ## Core Idea
 
-The task prompt should say what to do.
-
-The repo loop should say how work is done.
-
-
-#   s m a r t L o o p  
- 
+**The task prompt says what to do. The repository policy says how work is done.**
