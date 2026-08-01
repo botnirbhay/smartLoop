@@ -13,7 +13,8 @@ Context:
 
 Constraints:
 - Inspect relevant files before editing.
-- Make the smallest safe change that satisfies the task.
+- Derive an observable definition-of-done checklist and identify every affected layer.
+- Complete the smallest coherent end-to-end change that satisfies the task.
 - Follow existing project patterns.
 - Add or update tests when behavior changes.
 - Do not introduce dependencies unless explicitly approved.
@@ -31,11 +32,12 @@ Checks:
 - If no check command exists, say that no checks were available.
 
 Retry behavior:
-If a check fails, inspect the error, identify the likely cause, make a targeted fix, and rerun the relevant check. Stop after 3 failed attempts for the same failure and report the blocker.
+Use the loop Observe -> Decide -> Act -> Check -> Repeat. Every iteration must produce new evidence or measurable progress. If a check fails, inspect the error, identify the likely cause, make a targeted fix, and rerun it. Never rerun an unchanged failure. Stop after 3 failed attempts for the same failure or 2 consecutive no-progress iterations and report the blocker.
 
 Final response format:
 - Summary
 - Files changed
+- Definition of done: completed items and any unmet item
 - Checks run
 - Remaining risks or follow-ups
 ```
@@ -43,7 +45,7 @@ Final response format:
 ## Short Version
 
 ```text
-Follow AGENTS.md. Inspect first, make the smallest safe change, add or update tests for behavior changes, run available checks, fix check failures by reading the error, and stop when checks pass, blocked, or after 3 failed attempts. Final response: summary, files changed, checks run, remaining risks.
+Follow AGENTS.md. Derive definition of done, inspect the affected layers, and use Observe -> Decide -> Act -> Check -> Repeat until the complete outcome is verified. Do not rerun unchanged failures or ask for routine confirmation. Stop after 3 attempts on the same failure or 2 no-progress iterations. Final response: summary, files changed, definition-of-done status, checks, and remaining risks.
 
 Task: <task>
 Context: <context>

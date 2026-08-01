@@ -2,7 +2,7 @@
 
 > Create reliable, repository-specific working rules for coding agents without repeating the same operational prompt on every task.
 
-AI Agent Loop Kit provides a bootstrap workflow, complete `AGENTS.md` presets, task recipes, approval guardrails, check policies, and validation tools. It is Markdown-first, vendor-neutral, and dependency-free.
+AI Agent Loop Kit provides a bootstrap workflow, complete `AGENTS.md` presets, task recipes, approval guardrails, check policies, and validation tools. It turns a task into a bounded autonomous loop: observe, decide, act, check, and repeat until the requested outcome is complete or a defined stop condition is reached. It is Markdown-first, vendor-neutral, and dependency-free.
 
 The bootstrap workflow includes reusable guidance for nested packages, side-effectful scripts, runtime state, service-dependent checks, and scoped instruction files. See [Repository Discovery Patterns](docs/discovery-patterns.md).
 
@@ -46,6 +46,27 @@ Define once per repository:
 - What every final handoff must report.
 
 The loop is vendor-neutral. `AGENTS.md` is the canonical policy used by this kit; if your agent uses another instruction filename or configuration surface, adapt the same content there. See [Agent Compatibility](docs/agent-compatibility.md).
+
+`AGENTS.md` does not provide an agent runtime or guarantee a provider-specific token budget. It gives a compatible coding agent an evidence-based completion contract and bounded retry policy. Every iteration must make progress, the same failure gets at most three attempts, and two no-progress iterations stop the run.
+
+## What A Single Run Does
+
+Given a prompt such as:
+
+```text
+Follow AGENTS.md. Build the requested task end to end.
+```
+
+the policy tells the agent to:
+
+1. Convert the request into observable definition-of-done items.
+2. Inspect the relevant repository areas and identify required layers.
+3. Implement one coherent increment.
+4. Check the result with focused validation.
+5. Repeat until every required layer and checklist item is complete.
+6. Run broader checks once and audit the final result.
+
+The agent should not ask for routine confirmation, stop after only the UI when integration is required, rerun unchanged failures, or consume work on unrelated cleanup. Human approval still gates destructive, security-sensitive, dependency, migration, secret, network, and deployment actions.
 
 ## Quick Start
 
@@ -127,7 +148,7 @@ For the full version, use `docs/golden-prompt.md`.
 | [presets/](presets/) | Complete minimal, Node.js, Python, Go, and Rust policies |
 | [docs/loop-recipes/](docs/loop-recipes/) | Bugfix, failing-test, refactor, review, docs, and test workflows |
 | [templates/](templates/) | Structured task briefs and repository onboarding |
-| [snippets/](snippets/) | Reusable testing, security, approval, and stop policies |
+| [snippets/](snippets/) | Reusable autonomous-loop, learning, testing, security, approval, and stop policies |
 | [examples/languages/](examples/languages/) | Stack-specific commands and gotchas |
 | [examples/adoption/](examples/adoption/) | End-to-end discovery, policy, task, and handoff |
 | [docs/discovery-patterns.md](docs/discovery-patterns.md) | Generic repository discovery risks and responses |

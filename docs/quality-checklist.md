@@ -54,8 +54,12 @@ Score:
 
 ## 6. Failure And Stop Conditions
 
+- The task is converted into observable definition-of-done items before editing.
+- Required layers are identified so a feature cannot stop at a partial artifact.
 - Check failures trigger inspection and targeted fixes.
 - Retries are bounded.
+- An unchanged failure cannot be rerun without a new implementation, environment, or diagnostic hypothesis.
+- Consecutive no-progress iterations have a stop limit.
 - Missing context, permissions, services, or approval produces a clear blocker.
 - Completion requires either passing checks or an explicit report of unavailable checks.
 
@@ -65,6 +69,7 @@ Score:
 
 - The final response requires a summary.
 - Important files changed are listed.
+- Completed and unmet definition-of-done items are visible.
 - Commands and outcomes are reported.
 - Unverified behavior, remaining risks, and follow-ups are visible.
 
@@ -87,5 +92,8 @@ Do not consider the setup ready when:
 - Destructive or security-sensitive actions lack approval rules.
 - Generated or sensitive files are known but undocumented.
 - The agent can loop without a retry limit.
+- The policy allows repeated scans or unchanged command retries without new evidence.
+- The agent may stop before all required layers and definition-of-done items are complete.
 - Unrun checks can be presented as passing.
+- Task history, transient failures, secrets, or machine-specific state can be written into `AGENTS.md` as learning.
 - The policy conflicts with a stronger repository rule.

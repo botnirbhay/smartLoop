@@ -7,7 +7,7 @@ Use this section in `AGENTS.md` to keep an agent from looping indefinitely.
 
 Stop successfully when:
 
-- The requested task is complete and relevant checks pass.
+- Every definition-of-done item is complete and relevant checks pass.
 - The requested task is complete and no check command exists.
 - Documentation-only changes are complete and no documentation check exists.
 
@@ -18,5 +18,5 @@ Stop as blocked when:
 - The next action requires approval and approval has not been granted.
 - A check depends on an unavailable external service.
 
-Stop after 3 failed attempts for the same failing check or error. Report the command, recurring error, what was tried, and the likely next step.
+Stop after 3 failed attempts for the same failing check or error, or after 2 consecutive iterations produce no new evidence or progress. Never rerun an unchanged failure without a changed implementation, environment, or hypothesis. Report the command, recurring error, what was tried, and the likely next step.
 ```

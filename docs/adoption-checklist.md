@@ -62,6 +62,14 @@ Ask before:
 
 Define done in observable terms.
 
+For every task, require the agent to derive a checklist, identify affected layers, and keep looping until each required item is implemented and checked. Missing low-risk details should be inferred from repository evidence; only approval points or unsafe ambiguity should interrupt the run.
+
+Suggested `AGENTS.md` wording:
+
+```md
+Use Observe -> Decide -> Act -> Check -> Repeat. Every iteration must produce new evidence or progress. Do not stop at a partial layer. Stop after 3 attempts on the same failure or 2 consecutive no-progress iterations.
+```
+
 For bugfixes:
 
 - The bug is fixed.
@@ -95,6 +103,7 @@ Final response must include:
 
 - Summary
 - Files changed
+- Definition of done: completed items and any unmet item
 - Checks run
 - Remaining risks or follow-ups
 ```

@@ -13,6 +13,7 @@ Both scripts:
 - Record command sources and working directories.
 - Detect common local-state and dependency files.
 - Generate one `AGENTS.md`.
+- Include an autonomous completion loop, bounded retries, no-progress limits, and durable-learning rules.
 - Refuse to overwrite an existing `AGENTS.md`.
 - Support dry-run mode.
 - Do not install dependencies or run project commands.
