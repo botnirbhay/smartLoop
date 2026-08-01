@@ -11,6 +11,7 @@ Use this rubric after creating or reviewing a repository's agent instructions. S
 - The project purpose and important directories are clear.
 - Architecture boundaries or ownership rules are stated when relevant.
 - Existing contribution and policy files are referenced rather than contradicted.
+- Existing instruction files are classified by scope and purpose before reuse.
 
 Score:
 
@@ -19,13 +20,16 @@ Score:
 - Focused and broad test commands are distinguished.
 - Lint, format-check, typecheck, build, and docs commands are exact.
 - Each command exists in a manifest, task runner, CI file, or project document.
+- Commands from nested packages state the required working directory.
 - Slow, flaky, service-dependent, credential-dependent, or network-dependent checks are labeled.
+- Helper scripts with destructive, state-changing, or process-control behavior are not treated as routine checks.
 
 Score:
 
 ## 3. Editing Boundaries
 
 - Generated, vendored, build-output, migration, fixture, and snapshot paths are identified.
+- Runtime state, caches, logs, local environment files, and compiled artifacts are identified when relevant.
 - Rules explain how generated output should be changed.
 - Broad cleanup and unrelated refactors are discouraged.
 

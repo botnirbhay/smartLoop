@@ -4,6 +4,8 @@
 
 AI Agent Loop Kit provides a bootstrap workflow, complete `AGENTS.md` presets, task recipes, approval guardrails, check policies, and validation tools. It is Markdown-first, vendor-neutral, and dependency-free.
 
+The bootstrap workflow includes reusable guidance for nested packages, side-effectful scripts, runtime state, service-dependent checks, and scoped instruction files. See [Repository Discovery Patterns](docs/discovery-patterns.md).
+
 ## The Promise
 
 Define once per repository:
@@ -98,6 +100,7 @@ For the full version, use `docs/golden-prompt.md`.
 | [snippets/](snippets/) | Reusable testing, security, approval, and stop policies |
 | [examples/languages/](examples/languages/) | Stack-specific commands and gotchas |
 | [examples/adoption/](examples/adoption/) | End-to-end discovery, policy, task, and handoff |
+| [docs/discovery-patterns.md](docs/discovery-patterns.md) | Generic repository discovery risks and responses |
 
 See [START-HERE.md](START-HERE.md) for adoption steps and [Agent Compatibility](docs/agent-compatibility.md) when a tool uses a different instruction mechanism.
 

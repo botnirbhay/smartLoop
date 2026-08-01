@@ -15,6 +15,8 @@ Do not copy the whole kit into your project. Start with one of these paths.
 
 This path produces rules based on the repository that actually exists.
 
+Review [Repository Discovery Patterns](docs/discovery-patterns.md) for common issues involving nested packages, helper scripts, runtime state, services, and existing instruction files.
+
 ## Quick Path: New Repository
 
 Copy one complete preset:

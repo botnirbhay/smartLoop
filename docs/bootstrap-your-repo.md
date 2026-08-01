@@ -11,19 +11,21 @@ Inspect this repository to prepare a project-specific AGENTS.md.
 
 This is a read-only discovery step. Do not edit, create, move, or delete files. Do not install dependencies, make network calls, or run migrations.
 
-Inspect the repository structure and relevant source-of-truth files, including package manifests, task runners, CI workflows, test configuration, contribution docs, architecture docs, and existing agent instructions.
+Inspect the repository structure and relevant source-of-truth files, including root and nested package manifests, task runners, helper scripts, CI workflows, test configuration, contribution docs, architecture docs, and existing agent instructions.
 
 Report:
 1. Languages, frameworks, package managers, and major project areas.
 2. Focused and full test commands that are explicitly supported.
 3. Lint, format-check, typecheck, build, and documentation commands.
-4. Commands that are slow, destructive, network-dependent, or require services or credentials.
-5. Generated, vendored, sensitive, migration, fixture, snapshot, and build-output files.
-6. Existing repository conventions that agents should follow.
-7. Actions that should require human approval.
-8. Missing or ambiguous information that must not be guessed.
+4. The required working directory for every command found in a nested package or workspace.
+5. Commands and helper scripts that are slow, destructive, state-changing, network-dependent, process-controlling, or require services or credentials.
+6. Generated, vendored, sensitive, migration, fixture, snapshot, runtime-state, cache, log, and build-output files.
+7. Existing instruction files, classified as active repository policy, scoped subdirectory policy, generated bridge, example, template, or product artifact.
+8. Existing repository conventions that agents should follow.
+9. Actions that should require human approval.
+10. Missing or ambiguous information that must not be guessed.
 
-For every proposed command, cite the repository file where it was found. Do not invent commands or policies.
+For every proposed command, cite the repository file where it was found, state its working directory, and note important side effects or prerequisites. Do not invent commands or policies.
 
 Return a proposed AGENTS.md outline, but do not write it yet.
 ```
@@ -33,9 +35,13 @@ Return a proposed AGENTS.md outline, but do not write it yet.
 Before approving the proposal, verify:
 
 - Commands exist in manifests, scripts, task files, CI, or project docs.
+- Commands from nested packages include the correct working directory.
 - Format commands will not rewrite unrelated files.
+- Helper scripts were inspected before being recommended.
 - Integration tests and broad checks are clearly labeled.
 - Generated and vendored paths are correct.
+- Runtime state, logs, caches, local environment files, and process-control scripts are classified.
+- Existing instruction files were classified by scope and purpose instead of merged blindly.
 - Dependency, migration, security, secret, network, and deployment changes require approval.
 - Repository-specific architecture boundaries are represented.
 - Unknown information remains unknown instead of being filled with assumptions.
@@ -53,8 +59,10 @@ Requirements:
 - Keep it concise and project-specific.
 - Include the normal inspect, edit, test, check, retry, and stop loop.
 - Include exact supported commands and when each should run.
+- Include required working directories and prerequisites for nested-project commands.
 - Distinguish focused checks from broad checks.
 - Identify files or directories that should not be edited by hand.
+- Preserve existing instruction bridges and scoped policies; do not promote examples, templates, or product artifacts into root policy.
 - Include allowed actions and ask-first actions.
 - Stop after 3 failed attempts on the same issue.
 - Require a final response with summary, files changed, checks run, and remaining risks or follow-ups.
@@ -88,3 +96,5 @@ Review `AGENTS.md` when:
 - A check is consistently unavailable, slow, or flaky.
 
 Treat repeated prompting as evidence that a stable repository rule may be missing.
+
+See [Repository Discovery Patterns](discovery-patterns.md) for reusable guidance on incomplete existing policies, nested package commands, helper-script side effects, runtime state, service prerequisites, and instruction files that are artifacts rather than active policy.
