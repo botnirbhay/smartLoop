@@ -9,6 +9,7 @@ Both scripts:
 - Inspect only the selected target directory.
 - Detect root and common nested Node.js manifests.
 - Detect configured Python, Go, and Rust tooling conservatively.
+- Use a detected Python `.venv` and report configured tools whose executables are unavailable.
 - Record command sources and working directories.
 - Detect common local-state and dependency files.
 - Generate one `AGENTS.md`.

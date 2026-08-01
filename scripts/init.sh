@@ -138,12 +138,39 @@ done
 
 if [ -n "$python_files" ]; then
   add_stack 'Python'
-  grep -Eiq 'pytest' $python_files && add_check 'Tests' 'python -m pytest' 'Python project configuration' '.'
-  if grep -Eiq '(^|[^[:alnum:]_])ruff([^[:alnum:]_]|$)' $python_files; then
-    add_check 'Lint' 'ruff check .' 'Python project configuration' '.'
-    add_check 'Format check' 'ruff format --check .' 'Python project configuration' '.'
+  python_command='python'
+  if [ -x "$target/.venv/bin/python" ]; then
+    python_command='.venv/bin/python'
+    add_note '- Python checks use the detected `.venv` interpreter; recreate the environment if it is stale.'
   fi
-  grep -Eiq '(^|[^[:alnum:]_])mypy([^[:alnum:]_]|$)' $python_files && add_check 'Typecheck' 'mypy .' 'Python project configuration' '.'
+  grep -Eiq 'pytest' $python_files && add_check 'Tests' "$python_command -m pytest" 'Python project configuration' '.'
+  if grep -Eiq '(^|[^[:alnum:]_])ruff([^[:alnum:]_]|$)' $python_files; then
+    ruff_command=''
+    if [ -x "$target/.venv/bin/ruff" ]; then
+      ruff_command='.venv/bin/ruff'
+    elif command -v ruff >/dev/null 2>&1; then
+      ruff_command='ruff'
+    fi
+    if [ -n "$ruff_command" ]; then
+      add_check 'Lint' "$ruff_command check ." 'Python project configuration and detected executable' '.'
+      add_check 'Format check' "$ruff_command format --check ." 'Python project configuration and detected executable' '.'
+    else
+      add_note '- Ruff is configured, but no Ruff executable was detected. Install the project dev tools or document the repository runner before adding Ruff checks.'
+    fi
+  fi
+  if grep -Eiq '(^|[^[:alnum:]_])mypy([^[:alnum:]_]|$)' $python_files; then
+    mypy_command=''
+    if [ -x "$target/.venv/bin/mypy" ]; then
+      mypy_command='.venv/bin/mypy'
+    elif command -v mypy >/dev/null 2>&1; then
+      mypy_command='mypy'
+    fi
+    if [ -n "$mypy_command" ]; then
+      add_check 'Typecheck' "$mypy_command ." 'Python project configuration and detected executable' '.'
+    else
+      add_note '- mypy is configured, but no mypy executable was detected. Install the project dev tools or document the repository runner before adding mypy checks.'
+    fi
+  fi
 fi
 
 if [ -f "$target/go.mod" ]; then

@@ -119,15 +119,39 @@ $pythonConfigFiles = @(
 if ($pythonConfigFiles.Count -gt 0) {
     Add-Stack 'Python'
     $pythonConfig = ($pythonConfigFiles | ForEach-Object { Get-Content -Raw -LiteralPath $_ }) -join [Environment]::NewLine
+    $pythonCommand = 'python'
+    $venvPython = Join-Path $targetPath '.venv\Scripts\python.exe'
+    if (Test-Path -LiteralPath $venvPython) {
+        $pythonCommand = '.\.venv\Scripts\python.exe'
+        $notes.Add('- Python checks use the detected `.venv` interpreter; recreate the environment if it is stale.')
+    }
     if ($pythonConfig -match '(?i)pytest') {
-        Add-Check 'Tests' 'python -m pytest' 'Python project configuration' '.'
+        Add-Check 'Tests' "$pythonCommand -m pytest" 'Python project configuration' '.'
     }
     if ($pythonConfig -match '(?i)(^|[^a-z0-9_])ruff([^a-z0-9_]|$)') {
-        Add-Check 'Lint' 'ruff check .' 'Python project configuration' '.'
-        Add-Check 'Format check' 'ruff format --check .' 'Python project configuration' '.'
+        $ruffCommand = $null
+        $venvRuff = Join-Path $targetPath '.venv\Scripts\ruff.exe'
+        if (Test-Path -LiteralPath $venvRuff) { $ruffCommand = '.\.venv\Scripts\ruff.exe' }
+        elseif (Get-Command ruff -ErrorAction SilentlyContinue) { $ruffCommand = 'ruff' }
+        if ($null -ne $ruffCommand) {
+            Add-Check 'Lint' "$ruffCommand check ." 'Python project configuration and detected executable' '.'
+            Add-Check 'Format check' "$ruffCommand format --check ." 'Python project configuration and detected executable' '.'
+        }
+        else {
+            $notes.Add('- Ruff is configured, but no Ruff executable was detected. Install the project dev tools or document the repository runner before adding Ruff checks.')
+        }
     }
     if ($pythonConfig -match '(?i)(^|[^a-z0-9_])mypy([^a-z0-9_]|$)') {
-        Add-Check 'Typecheck' 'mypy .' 'Python project configuration' '.'
+        $mypyCommand = $null
+        $venvMypy = Join-Path $targetPath '.venv\Scripts\mypy.exe'
+        if (Test-Path -LiteralPath $venvMypy) { $mypyCommand = '.\.venv\Scripts\mypy.exe' }
+        elseif (Get-Command mypy -ErrorAction SilentlyContinue) { $mypyCommand = 'mypy' }
+        if ($null -ne $mypyCommand) {
+            Add-Check 'Typecheck' "$mypyCommand ." 'Python project configuration and detected executable' '.'
+        }
+        else {
+            $notes.Add('- mypy is configured, but no mypy executable was detected. Install the project dev tools or document the repository runner before adding mypy checks.')
+        }
     }
 }
 
