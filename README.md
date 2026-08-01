@@ -6,6 +6,36 @@ AI Agent Loop Kit provides a bootstrap workflow, complete `AGENTS.md` presets, t
 
 The bootstrap workflow includes reusable guidance for nested packages, side-effectful scripts, runtime state, service-dependent checks, and scoped instruction files. See [Repository Discovery Patterns](docs/discovery-patterns.md).
 
+## One-Command Setup
+
+Run from the root of the repository you want to configure.
+
+macOS, Linux, or a POSIX shell:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/botnirbhay/smartLoop/main/scripts/init.sh | sh
+```
+
+Windows PowerShell:
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/botnirbhay/smartLoop/main/scripts/init.ps1)))
+```
+
+The initializer detects common stacks and checks, records command sources and working directories, detects common protected paths, and creates only `AGENTS.md`. It never installs dependencies, runs project commands, or makes additional network calls. It refuses to overwrite an existing `AGENTS.md`.
+
+Preview without writing:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/botnirbhay/smartLoop/main/scripts/init.sh | sh -s -- --dry-run
+```
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/botnirbhay/smartLoop/main/scripts/init.ps1))) -DryRun
+```
+
+Piping remote code into a shell requires trust in the referenced content. Inspect [the shell initializer](scripts/init.sh) or [PowerShell initializer](scripts/init.ps1) first. For stable use, replace `main` with a published release tag such as `v0.1.0`.
+
 ## The Promise
 
 Define once per repository:
@@ -21,13 +51,13 @@ The loop is vendor-neutral. `AGENTS.md` is the canonical policy used by this kit
 
 | Your situation | Start here |
 | --- | --- |
-| Existing repository | [Bootstrap Your Repository](docs/bootstrap-your-repo.md) |
+| Existing repository | Run the one-command setup above |
 | New repository | [Complete AGENTS.md Presets](presets/) |
 | Evaluating the kit | [Worked Adoption Example](examples/adoption/) |
 | Team rollout | [Adoption Checklist](docs/adoption-checklist.md) |
 | Existing setup needs review | [Quality Checklist](docs/quality-checklist.md) |
 
-## Start With Your Own Repository
+## Manual Setup
 
 The recommended setup uses the agent to inspect the target repository before creating any policy:
 
@@ -101,6 +131,7 @@ For the full version, use `docs/golden-prompt.md`.
 | [examples/languages/](examples/languages/) | Stack-specific commands and gotchas |
 | [examples/adoption/](examples/adoption/) | End-to-end discovery, policy, task, and handoff |
 | [docs/discovery-patterns.md](docs/discovery-patterns.md) | Generic repository discovery risks and responses |
+| [scripts/](scripts/) | Dependency-free shell and PowerShell initializers |
 
 See [START-HERE.md](START-HERE.md) for adoption steps and [Agent Compatibility](docs/agent-compatibility.md) when a tool uses a different instruction mechanism.
 
@@ -115,7 +146,7 @@ See [START-HERE.md](START-HERE.md) for adoption steps and [Agent Compatibility](
 ## What This Is Not
 
 - Not a framework.
-- Not a package or CLI.
+- Not an agent runtime or orchestration framework.
 - Not a general-purpose agent orchestration system; it is focused on agents that work in code repositories.
 - Not a replacement for tests, CI, code review, or human judgment.
 - Not a claim that every agent supports the same files, tools, permissions, or level of autonomy.

@@ -4,7 +4,25 @@ Use AI Agent Loop Kit to create project-specific working rules for a coding agen
 
 Do not copy the whole kit into your project. Start with one of these paths.
 
-## Fastest Path: Existing Repository
+## Fastest Path
+
+Run from the target repository.
+
+POSIX shell:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/botnirbhay/smartLoop/main/scripts/init.sh | sh
+```
+
+Windows PowerShell:
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/botnirbhay/smartLoop/main/scripts/init.ps1)))
+```
+
+Review the generated `AGENTS.md`, then paste the read-only smoke-test prompt from [Test Your Setup](docs/test-your-setup.md).
+
+## Manual Path: Existing Repository
 
 1. Open your repository in your coding agent.
 2. Paste the discovery prompt from [Bootstrap Your Repository](docs/bootstrap-your-repo.md).
@@ -17,7 +35,7 @@ This path produces rules based on the repository that actually exists.
 
 Review [Repository Discovery Patterns](docs/discovery-patterns.md) for common issues involving nested packages, helper scripts, runtime state, services, and existing instruction files.
 
-## Quick Path: New Repository
+## Preset Path: New Repository
 
 Copy one complete preset:
 

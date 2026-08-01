@@ -51,7 +51,13 @@ Ask first:
 
 Run the relevant checks that exist in the repository. Prefer the smallest command that validates the changed behavior, then broader checks when the change touches shared behavior.
 
-This repository currently has no package manager or runnable project checks. If no check command exists, state that no checks were available in the final response.
+This repository has no package manager. For initializer changes, run:
+
+- `bash -n scripts/init.sh`
+- Parse `scripts/init.ps1` with PowerShell before running it.
+- Run both initializers with dry-run mode against representative repositories.
+
+If no relevant check command exists, state that no checks were available in the final response.
 
 ## Failure Handling
 
